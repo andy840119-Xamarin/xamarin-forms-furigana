@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{77990895-4247-4E5A-9474-E3456B62A28D}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>CustomLayouts</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseIndicator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\BaseTabPosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CarouselLayout\CarouselLayout.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CustomTabbedView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Dots\DotIndicatorPosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\DotTabbedView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Tabs\TabIndicatorPosition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TopIndicatorTabbedView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HomePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SwitcherPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Dots\PagerIndicatorDots.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Tabs\PagerIndicatorTabs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SwitcherPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HomeView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\CarouselLayout\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
+  </ItemGroup>
+</Project>
