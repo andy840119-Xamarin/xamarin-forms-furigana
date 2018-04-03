@@ -16,7 +16,7 @@
     <AndroidApplication>True</AndroidApplication>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <AssemblyName>CustomLayouts.Droid</AssemblyName>
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -132,13 +132,13 @@
     <AndroidResource Include="Resources\drawable\pin.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CustomLayoutsDemo\CustomLayoutsDemo.csproj">
+    <ProjectReference Include="..\xamarin-forms-furigana-demo\furigana.Form.csproj">
       <Project>{5cf1e54f-e47a-4379-8a1a-8603772565ce}</Project>
-      <Name>CustomLayoutsDemo</Name>
+      <Name>furigana.Form</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CustomLayouts\CarouselView.csproj">
+    <ProjectReference Include="..\xamarin-forms-furigana\furigana.csproj">
       <Project>{d256b981-15b1-4581-a937-e0e3ecbf0fa4}</Project>
-      <Name>CarouselView</Name>
+      <Name>furigana</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
