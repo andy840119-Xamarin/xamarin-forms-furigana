@@ -62,6 +62,9 @@ namespace furigana.Controls
                 furiganaText.Style = _furiganaModel.Style;
                 Children.Add(furiganaText);
             }
+
+            //update spacing
+            Spacing = _furiganaModel?.Style?.CharacterSpacing ?? 0;
         }
     }
 

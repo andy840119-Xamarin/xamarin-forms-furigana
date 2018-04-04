@@ -24,6 +24,9 @@ namespace furigana.Controls
             HorizontalTextAlignment = TextAlignment.Center,
         };
 
+        private BoxView _furiganaSpacingBox = new BoxView{WidthRequest = 0};
+        private BoxView _romajiSpacingBox = new BoxView{WidthRequest = 0};
+
         private FuriganaText _furiganaText;
         public FuriganaText Text
         {
@@ -47,6 +50,8 @@ namespace furigana.Controls
                 _furiganaLabel.FontSize = _furiganaStyle.FuriganaFontSize;
                 _characterLabel.FontSize = _furiganaStyle.CharacterFontSize;
                 _romajiLabel.FontSize = _furiganaStyle.RomajiFontSize;
+                _furiganaSpacingBox.HeightRequest = _furiganaStyle.FuriganaSpacing;
+                _romajiSpacingBox.HeightRequest = _furiganaStyle.RomajiSpacing;
             }
         }
 
@@ -55,13 +60,17 @@ namespace furigana.Controls
         /// </summary>
         public FuriganaCharacter()
         {
-            Spacing = 1;
+            Spacing = 0;
 
             Children.Clear();
             //furigana
             Children.Add(_furiganaLabel);
+            //spacing
+            Children.Add(_furiganaSpacingBox);
             //character
             Children.Add(_characterLabel);
+            //spacing
+            Children.Add(_romajiSpacingBox);
             //romaji
             Children.Add(_romajiLabel);
         }

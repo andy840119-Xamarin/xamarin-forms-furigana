@@ -28,5 +28,20 @@ namespace furigana.Model
         /// size
         /// </summary>
         public double RomajiFontSize { get; set; } = 7;
+
+        /// <summary>
+        /// spacing between chatacters
+        /// </summary>
+        public double CharacterSpacing { get; set; } = 1;
+
+        /// <summary>
+        /// spacing between furigana and character
+        /// </summary>
+        public double FuriganaSpacing { get; set; } = 0;
+
+        /// <summary>
+        /// spacing between romaji and character
+        /// </summary>
+        public double RomajiSpacing { get; set; } = 0;
     }
 }
