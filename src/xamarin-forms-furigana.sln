@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "furigana.iOS", "iOS\furigan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "furigana.Droid", "Droid\furigana.Droid.csproj", "{26422919-3EAD-440B-B516-E41B10D2AC56}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "furigana.Form", "xamarin-forms-furigana-demo\furigana.Form.csproj", "{5CF1E54F-E47A-4379-8A1A-8603772565CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "furigana.Form", "Forms\furigana.Form.csproj", "{5CF1E54F-E47A-4379-8A1A-8603772565CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "furigana", "xamarin-forms-furigana\furigana.csproj", "{D256B981-15B1-4581-A937-E0E3ECBF0FA4}"
 EndProject
