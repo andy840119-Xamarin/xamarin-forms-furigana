@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CustomLayouts\CarouselView.csproj" />
+    <ProjectReference Include="..\xamarin-forms-furigana\furigana.csproj" />
   </ItemGroup>
 
 </Project>

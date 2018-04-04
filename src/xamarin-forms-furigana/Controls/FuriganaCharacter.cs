@@ -11,9 +11,9 @@ namespace furigana.Controls
     /// </summary>
     public class FuriganaCharacter : StackLayout
     {
-        private Label _furiganaLabel;
-        private Label _characterLabel;
-        private Label _romajiLabel;
+        private Label _furiganaLabel = new Label();
+        private Label _characterLabel = new Label();
+        private Label _romajiLabel = new Label();
 
         private FuriganaText _furiganaText;
         public FuriganaText Text

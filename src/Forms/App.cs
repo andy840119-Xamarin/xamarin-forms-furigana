@@ -7,7 +7,7 @@ namespace CustomLayoutsDemo
         public App()
         {
             // The root page of your application
-            var navPage = new NavigationPage(new SwitcherPage());
+            var navPage = new NavigationPage(new FuriganaPage());
             navPage.Icon = null;
             MainPage = navPage;
         }
