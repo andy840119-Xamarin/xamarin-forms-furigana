@@ -1,5 +1,14 @@
-# xamarin-furigana
-add little character into japanese kanji   
-TODO : this project hasn't finish yet     
-this read-me will be updated until project finish   
-and will in package in .netstandard2.0 format in nuget   
+# xamarin-furigana   
+xamarin-furigana is used to show furigana in Japanese character.   
+support xamarin.Forms   
+.   
+This package also need to install on xamarin.iOS and xamarin.Droid as well.   
+.   
+furigana :   
+the little character on the japanese kanji, let people know now to read it.   
+https://en.wikipedia.org/wiki/Furigana   
+.   
+Demo :   
+<p align="center">
+<img height="500" src="https://raw.githubusercontent.com/andy840119-Xamarin/xamarin-furigana/master/image/furigana.png" />
+</p>  
