@@ -41,6 +41,7 @@ namespace furigana.Controls
                 {
                     propertyChange();
                 };
+                propertyChange();
             }
         }
 

@@ -6,14 +6,16 @@ namespace CustomLayoutsDemo
 {
     public class FuriganaPage : ContentPage
     {
-        private readonly FuriganaPageViewModel viewModel;
+        private readonly FuriganaPageViewModel _viewModel;
 
+        /// <summary>
+        /// Ctor
+        /// </summary>
         public FuriganaPage()
         {
             Title = "Furigana text";
-            viewModel = new FuriganaPageViewModel();
-
-            this.BindingContext = viewModel;
+            _viewModel = new FuriganaPageViewModel();
+            BindingContext = _viewModel;
 
             Content = new StackLayout
             {
@@ -24,7 +26,7 @@ namespace CustomLayoutsDemo
                 {
                     new FuriganaLabel()
                     {
-                        BindingContext = viewModel.FuriganaModel
+                        BindingContext = _viewModel.FuriganaModel
                     }
                 }
             };

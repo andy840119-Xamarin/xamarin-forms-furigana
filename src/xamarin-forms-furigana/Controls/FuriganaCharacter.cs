@@ -11,9 +11,18 @@ namespace furigana.Controls
     /// </summary>
     public class FuriganaCharacter : StackLayout
     {
-        private Label _furiganaLabel = new Label();
-        private Label _characterLabel = new Label();
-        private Label _romajiLabel = new Label();
+        private Label _furiganaLabel = new Label()
+        {
+            HorizontalTextAlignment = TextAlignment.Center,
+        };
+        private Label _characterLabel = new Label()
+        {
+            HorizontalTextAlignment = TextAlignment.Center,
+        };
+        private Label _romajiLabel = new Label()
+        {
+            HorizontalTextAlignment = TextAlignment.Center,
+        };
 
         private FuriganaText _furiganaText;
         public FuriganaText Text
@@ -46,7 +55,7 @@ namespace furigana.Controls
         /// </summary>
         public FuriganaCharacter()
         {
-            Spacing = 5;
+            Spacing = 1;
 
             Children.Clear();
             //furigana
