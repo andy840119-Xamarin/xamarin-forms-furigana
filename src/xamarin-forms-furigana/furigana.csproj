@@ -12,7 +12,7 @@
     <PackageVersion>1.0.0</PackageVersion>
     <PackageReleaseNotes>https://github.com/andy840119-Xamarin/xamarin-furigana/blob/master/README.md</PackageReleaseNotes>
     <PackageIconUrl></PackageIconUrl>
-    <AssemblyName>Furigana</AssemblyName>
+    <AssemblyName>Xamarin.Forms.Furigana</AssemblyName>
     <RootNamespace>Furigana</RootNamespace>
     <RepositoryUrl>https://github.com/andy840119-Xamarin/xamarin-furigana.git</RepositoryUrl>
   </PropertyGroup>
