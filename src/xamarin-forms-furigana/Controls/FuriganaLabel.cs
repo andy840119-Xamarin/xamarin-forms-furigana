@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using furigana.Model;
 using Xamarin.Forms;
 
 namespace furigana.Controls
 {
     /// <summary>
-    /// Label
-    /// contain list of <see cref="FuriganaCharacter"/>
+    ///     Label
+    ///     contain list of <see cref="FuriganaCharacter" />
     /// </summary>
     public class FuriganaLabel : FuriganaLabel<FuriganaCharacter>
     {
-
     }
 
     /// <summary>
-    /// Label
-    /// contain list of <see cref="FuriganaText"/>
+    ///     Label
+    ///     contain list of <see cref="FuriganaText" />
     /// </summary>
-    public class FuriganaLabel<Character> : StackLayout where Character : FuriganaCharacter , new ()
+    public class FuriganaLabel<Character> : StackLayout where Character : FuriganaCharacter, new()
     {
+        private FuriganaModel _furiganaModel;
+
         //list drawable text
         private List<FuriganaText> _listText;
 
@@ -30,17 +29,13 @@ namespace furigana.Controls
             Orientation = StackOrientation.Horizontal;
         }
 
-        private FuriganaModel _furiganaModel;
         public FuriganaModel FuriganaModel
         {
             get => _furiganaModel;
             set
             {
                 _furiganaModel = value;
-                _furiganaModel.PropertyChanged += (a, b) =>
-                {
-                    propertyChange();
-                };
+                _furiganaModel.PropertyChanged += (a, b) => { propertyChange(); };
                 propertyChange();
             }
         }
@@ -55,9 +50,9 @@ namespace furigana.Controls
         private void propertyChange()
         {
             Children.Clear();
-            foreach (var singleChar in _furiganaModel.FuriganaTexts ?? new ObservableCollection<Model.FuriganaText>())
+            foreach (var singleChar in _furiganaModel.FuriganaTexts ?? new ObservableCollection<FuriganaText>())
             {
-                Character furiganaText = new Character();
+                var furiganaText = new Character();
                 furiganaText.Text = singleChar;
                 furiganaText.Style = _furiganaModel.Style;
                 Children.Add(furiganaText);
@@ -67,6 +62,4 @@ namespace furigana.Controls
             Spacing = _furiganaModel?.Style?.CharacterSpacing ?? 0;
         }
     }
-
-    
 }

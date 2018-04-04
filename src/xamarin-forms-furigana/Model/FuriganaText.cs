@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace furigana.Model
+﻿namespace furigana.Model
 {
     /// <summary>
-    /// define each of character
+    ///     define each of character
     /// </summary>
     public class FuriganaText
     {
         /// <summary>
-        /// Ctor
+        ///     Ctor
         /// </summary>
         public FuriganaText()
         {
-
         }
 
         /// <summary>
-        /// Ctor
+        ///     Ctor
         /// </summary>
         /// <param name="character"></param>
         /// <param name="furigana"></param>
@@ -31,17 +26,17 @@ namespace furigana.Model
         }
 
         /// <summary>
-        /// Furigana
+        ///     Furigana
         /// </summary>
         public string Furigana { get; set; }
 
         /// <summary>
-        /// Character
+        ///     Character
         /// </summary>
         public string Character { get; set; }
 
         /// <summary>
-        /// Romaji
+        ///     Romaji
         /// </summary>
         public string Romaji { get; set; }
     }

@@ -1,62 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using furigana.Model;
+﻿using furigana.Model;
 using Xamarin.Forms;
 
 namespace furigana.Controls
 {
     /// <summary>
-    /// Character
+    ///     Character
     /// </summary>
     public class FuriganaCharacter : StackLayout
     {
-        private Label _furiganaLabel = new Label()
+        private readonly Label _characterLabel = new Label
         {
-            HorizontalTextAlignment = TextAlignment.Center,
-        };
-        private Label _characterLabel = new Label()
-        {
-            HorizontalTextAlignment = TextAlignment.Center,
-        };
-        private Label _romajiLabel = new Label()
-        {
-            HorizontalTextAlignment = TextAlignment.Center,
+            HorizontalTextAlignment = TextAlignment.Center
         };
 
-        private BoxView _furiganaSpacingBox = new BoxView{WidthRequest = 0};
-        private BoxView _romajiSpacingBox = new BoxView{WidthRequest = 0};
-
-        private FuriganaText _furiganaText;
-        public FuriganaText Text
+        private readonly Label _furiganaLabel = new Label
         {
-            get => _furiganaText;
-            set
-            {
-                _furiganaText = value;
-                _furiganaLabel.Text = _furiganaText.Furigana;
-                _characterLabel.Text = _furiganaText.Character;
-                _romajiLabel.Text = _furiganaText.Romaji;
-            }
-        }
+            HorizontalTextAlignment = TextAlignment.Center
+        };
+
+        private readonly BoxView _furiganaSpacingBox = new BoxView {WidthRequest = 0};
 
         private FuriganaStyle _furiganaStyle;
-        public FuriganaStyle Style
+
+        private FuriganaText _furiganaText;
+
+        private readonly Label _romajiLabel = new Label
         {
-            get => _furiganaStyle;
-            set
-            {
-                _furiganaStyle = value;
-                _furiganaLabel.FontSize = _furiganaStyle.FuriganaFontSize;
-                _characterLabel.FontSize = _furiganaStyle.CharacterFontSize;
-                _romajiLabel.FontSize = _furiganaStyle.RomajiFontSize;
-                _furiganaSpacingBox.HeightRequest = _furiganaStyle.FuriganaSpacing;
-                _romajiSpacingBox.HeightRequest = _furiganaStyle.RomajiSpacing;
-            }
-        }
+            HorizontalTextAlignment = TextAlignment.Center
+        };
+
+        private readonly BoxView _romajiSpacingBox = new BoxView {WidthRequest = 0};
 
         /// <summary>
-        /// Ctor
+        ///     Ctor
         /// </summary>
         public FuriganaCharacter()
         {
@@ -73,6 +49,32 @@ namespace furigana.Controls
             Children.Add(_romajiSpacingBox);
             //romaji
             Children.Add(_romajiLabel);
+        }
+
+        public FuriganaText Text
+        {
+            get => _furiganaText;
+            set
+            {
+                _furiganaText = value;
+                _furiganaLabel.Text = _furiganaText.Furigana;
+                _characterLabel.Text = _furiganaText.Character;
+                _romajiLabel.Text = _furiganaText.Romaji;
+            }
+        }
+
+        public FuriganaStyle Style
+        {
+            get => _furiganaStyle;
+            set
+            {
+                _furiganaStyle = value;
+                _furiganaLabel.FontSize = _furiganaStyle.FuriganaFontSize;
+                _characterLabel.FontSize = _furiganaStyle.CharacterFontSize;
+                _romajiLabel.FontSize = _furiganaStyle.RomajiFontSize;
+                _furiganaSpacingBox.HeightRequest = _furiganaStyle.FuriganaSpacing;
+                _romajiSpacingBox.HeightRequest = _furiganaStyle.RomajiSpacing;
+            }
         }
     }
 }
