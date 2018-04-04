@@ -9,7 +9,7 @@ namespace CustomLayoutsDemo
         private readonly FuriganaPageViewModel _viewModel;
 
         /// <summary>
-        /// Ctor
+        ///     Ctor
         /// </summary>
         public FuriganaPage()
         {
@@ -24,7 +24,7 @@ namespace CustomLayoutsDemo
                 Spacing = 20,
                 Children =
                 {
-                    new FuriganaLabel()
+                    new FuriganaLabel
                     {
                         BindingContext = _viewModel.FuriganaModel
                     }
