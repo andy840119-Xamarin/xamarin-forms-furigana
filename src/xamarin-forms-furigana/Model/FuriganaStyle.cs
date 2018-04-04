@@ -17,16 +17,16 @@ namespace furigana.Model
         /// <summary>
         /// size
         /// </summary>
-        public double FuriganaFontSize { get; set; }
+        public double FuriganaFontSize { get; set; } = 8;
 
         /// <summary>
         /// size
         /// </summary>
-        public double CharacterFontSize { get; set; }
+        public double CharacterFontSize { get; set; } = 15;
 
         /// <summary>
         /// size
         /// </summary>
-        public double RomajiFontSize { get; set; }
+        public double RomajiFontSize { get; set; } = 7;
     }
 }

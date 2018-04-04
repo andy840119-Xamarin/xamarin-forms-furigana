@@ -44,6 +44,13 @@ namespace furigana.Controls
             }
         }
 
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+            if (BindingContext is FuriganaModel model)
+                FuriganaModel = model;
+        }
+
         private void propertyChange()
         {
             Children.Clear();
