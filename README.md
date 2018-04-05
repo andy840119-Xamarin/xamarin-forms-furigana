@@ -8,7 +8,7 @@ nuget :
 https://www.nuget.org/packages/Xamarin.Forms.Furigana   
 .   
 what is furigana :   
-the little character on the japanese kanji, let people know now to read it.   
+the little character on the japanese kanji, let people know how to read it.   
 https://en.wikipedia.org/wiki/Furigana   
 .   
 Demo :   
