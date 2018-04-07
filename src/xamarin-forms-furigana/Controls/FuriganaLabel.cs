@@ -75,50 +75,6 @@ namespace furigana.Controls
             ForceLayout();
         }
 
-        /*
-        protected virtual void ArrangeLayout()
-        {
-            Children.Clear();
-            //add all the text into stacklayout
-            foreach (var singleChar in _listText)
-            {
-                //create new line
-                if (_listText.IndexOf(singleChar) % 10 == 0)
-                {
-                    var newlayout = new StackLayout()
-                    {
-                        //VerticalOptions = LayoutOptions.FillAndExpand,
-                        //HorizontalOptions = LayoutOptions.FillAndExpand,
-                        Orientation = FuriganaModel.Style.Orientation
-                    };
-                    Children.Add(newlayout);
-                }
-
-                if (Children.LastOrDefault() is StackLayout layout)
-                {
-                    Debug.WriteLine("width : " + layout.Width + " height : " + layout.Height);
-                    layout.Children.Add(singleChar);
-                }
-            }
-        }
-        */
-
-        /*
-        protected override void OnSizeAllocated(double width, double height)
-        {
-            Debug.WriteLine("width0 : " + Width + " height0 : " + Height);
-            base.OnSizeAllocated(width, height);
-            if (Width > 0 && Height > 0)
-            {
-                //if enable auto-change new line
-                if (FuriganaModel?.Style?.AutoChangeNewLine ?? false)
-                {
-                    //ArrangeLayout();
-                }   
-            }
-        }
-        */
-
         /// <summary>
         /// TODO : IDK what does it means 
         /// </summary>
@@ -162,7 +118,7 @@ namespace furigana.Controls
 
             foreach (var item in Children)
             {
-                var size = item.GetSizeRequest(widthConstraint, heightConstraint);
+                var size = item.Measure(widthConstraint, heightConstraint);
                 height = Math.Max(height, size.Request.Height);
 
                 var newWidth = width + size.Request.Width + Spacing;
@@ -206,7 +162,7 @@ namespace furigana.Controls
 
             foreach (var child in Children.Where(c => c.IsVisible))
             {
-                var request = child.GetSizeRequest(width, height);
+                var request = child.Measure(width, height);
 
                 var childWidth = request.Request.Width;
                 var childHeight = request.Request.Height;
