@@ -9,6 +9,8 @@ namespace furigana.Model
     /// </summary>
     public class FuriganaModel : INotifyPropertyChanged
     {
+        private bool _autoChangeNewLine = true;
+
         /// <summary>
         ///     Ctor
         /// </summary>
@@ -32,6 +34,21 @@ namespace furigana.Model
         ///     Style
         /// </summary>
         public FuriganaStyle Style { get; set; } = new FuriganaStyle();
+
+        /// <summary>
+        /// auto change new-line
+        /// </summary>
+        public bool AutoChangeNewLine {
+            get => _autoChangeNewLine;
+            set
+            {
+                if (_autoChangeNewLine != value)
+                {
+                    _autoChangeNewLine = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("喵"));
+                }
+            }
+        } 
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
