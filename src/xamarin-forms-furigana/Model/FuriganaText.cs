@@ -6,7 +6,7 @@ using Xamarin.Forms;
 namespace furigana.Model
 {
     /// <summary>
-    ///     define each of character
+    ///     Define each of character
     /// </summary>
     public class FuriganaText : INotifyPropertyChanged
     {
@@ -76,7 +76,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        /// Text color
+        ///     Text color
         /// </summary>
         public Color? TextColor
         {
@@ -89,12 +89,12 @@ namespace furigana.Model
         }
 
         /// <summary>
-        /// Event
+        ///     Event
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// invoke
+        ///     Invoke
         /// </summary>
         /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]

@@ -36,12 +36,12 @@ namespace furigana.Model
         public FuriganaStyle Style { get; set; } = new FuriganaStyle();
 
         /// <summary>
-        /// Event
+        ///     Event
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// invoke
+        ///     Invoke
         /// </summary>
         /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]

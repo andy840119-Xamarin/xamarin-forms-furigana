@@ -6,7 +6,7 @@ using Xamarin.Forms;
 namespace furigana.Model
 {
     /// <summary>
-    ///     define the size and position of text
+    ///     Define the size and position of text
     /// </summary>
     public class FuriganaStyle : INotifyPropertyChanged
     {
@@ -21,7 +21,7 @@ namespace furigana.Model
         private StackOrientation _orientation = StackOrientation.Vertical;
 
         /// <summary>
-        ///     size
+        ///     Size
         /// </summary>
         public double FuriganaFontSize
         {
@@ -34,7 +34,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     size
+        ///     Size
         /// </summary>
         public double CharacterFontSize
         {
@@ -47,7 +47,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     size
+        ///     Size
         /// </summary>
         public double RomajiFontSize
         {
@@ -60,7 +60,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     spacing between two chatacters
+        ///     Spacing between two chatacters
         /// </summary>
         public double CharacterSpacing 
         {
@@ -73,7 +73,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     spacing between furigana and character
+        ///     Spacing between furigana and character
         /// </summary>
         public double FuriganaSpacing
         {
@@ -86,7 +86,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     spacing between romaji and character
+        ///     Spacing between romaji and character
         /// </summary>
         public double RomajiSpacing
         {
@@ -99,7 +99,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        /// Text color
+        ///     Text color
         /// </summary>
         public Color? TextColor
         {
@@ -112,7 +112,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        /// auto change new-line
+        ///     Auto change new-line
         /// </summary>
         public bool AutoChangeNewLine
         {
@@ -128,7 +128,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        /// orientation
+        ///     Orientation
         /// </summary>
         public StackOrientation Orientation
         {
@@ -144,12 +144,12 @@ namespace furigana.Model
         }
 
         /// <summary>
-        /// Event
+        ///     Event
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// invoke
+        ///     Invoke
         /// </summary>
         /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]

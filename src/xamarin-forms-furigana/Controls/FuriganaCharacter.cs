@@ -31,7 +31,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// Text
+        ///     Text
         /// </summary>
         public FuriganaText Text
         {
@@ -51,7 +51,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// Style
+        ///     Style
         /// </summary>
         public new FuriganaStyle Style
         {
@@ -70,7 +70,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// update style
+        ///     Update style
         /// </summary>
         protected void UpdateStyle()
         {
@@ -100,7 +100,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// update text
+        ///     Update text
         /// </summary>
         protected void UpdateText()
         {
@@ -120,7 +120,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// Change orientation
+        ///     Change orientation
         /// </summary>
         /// <param name="orientation">Character's oriention,not the string's orientation. They are relativce</param>
         protected virtual void ChangeOrientation(StackOrientation orientation)

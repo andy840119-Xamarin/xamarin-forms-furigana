@@ -26,43 +26,60 @@ namespace furigana.Controls
     {
         private FuriganaModel _furiganaModel;
 
-        //list drawable text
-        private List<Character> _listText = new List<Character>();
-        private List<StackLayout> _listLayout = new List<StackLayout>();
+        protected StackOrientation Orientation => FuriganaModel?.Style?.Orientation ?? StackOrientation.Horizontal;
+        protected double Spacing => FuriganaModel?.Style?.CharacterSpacing ?? 0;
 
+        /// <summary>
+        /// Ctor
+        /// </summary>
         public FuriganaLabel()
         {
-            //VerticalOptions = LayoutOptions.FillAndExpand;
-            //HorizontalOptions = LayoutOptions.FillAndExpand;
+            
         }
 
+        /// <summary>
+        /// Model
+        /// </summary>
         public FuriganaModel FuriganaModel
         {
             get => _furiganaModel;
             set
             {
-                _furiganaModel = value;
-                _furiganaModel.PropertyChanged += (a, b) => { PropertyChange(); };
+                if (value == null)
+                    throw new ArgumentNullException(nameof(FuriganaModel) + "Cannot be null");
+
+                if (_furiganaModel != value)
+                {
+                    _furiganaModel = value;
+                    _furiganaModel.PropertyChanged += (a, b) => { PropertyChange(); };
+                }
+
                 PropertyChange();
             }
         }
 
-        protected StackOrientation Orientation => FuriganaModel?.Style?.Orientation ?? StackOrientation.Horizontal;
-        protected double Spacing => FuriganaModel?.Style?.CharacterSpacing ?? 0;
-
+        /// <summary>
+        /// Context change
+        /// </summary>
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
+
+            //change model
             if (BindingContext is FuriganaModel model)
                 FuriganaModel = model;
         }
 
+        /// <summary>
+        /// property change
+        /// now is clean and re-generate everying
+        /// TODO : optomize this 
+        /// </summary>
         protected virtual void PropertyChange()
         {
             if (FuriganaModel != null)
             {
                 //generate list text
-                _listText.Clear();
                 Children.Clear();
                 foreach (var singleChar in _furiganaModel.FuriganaTexts ?? new ObservableCollection<FuriganaText>())
                 {
@@ -70,16 +87,16 @@ namespace furigana.Controls
                     furiganaText.Text = singleChar;
                     furiganaText.Style = _furiganaModel.Style;
                     var width = furiganaText.Width;
-                    _listText.Add(furiganaText);
                     Children.Add(furiganaText);
                 }
             }
+
             //force layout
             ForceLayout();
         }
 
         /// <summary>
-        /// TODO : IDK what does it means 
+        /// TODO : IDK what does it means ,this code is from another place
         /// </summary>
         /// <param name="widthConstraint"></param>
         /// <param name="heightConstraint"></param>
@@ -102,7 +119,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// TODO : IDK what does it means
+        /// TODO : IDK what does it means ,this code is from another place
         /// </summary>
         /// <param name="widthConstraint"></param>
         /// <param name="heightConstraint"></param>
@@ -185,7 +202,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// TODO : IDK what does it means
+        /// TODO : IDK what does it means ,this code is from another place
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
