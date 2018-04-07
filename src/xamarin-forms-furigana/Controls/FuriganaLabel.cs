@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace furigana.Controls
     ///     Label
     ///     contain list of <see cref="FuriganaText" />
     /// </summary>
-    public class FuriganaLabel<Character> : StackLayout where Character : FuriganaCharacter, new()
+    public class FuriganaLabel<Character> : Layout<Character> where Character : FuriganaCharacter, new()
     {
         private FuriganaModel _furiganaModel;
 
@@ -59,6 +60,7 @@ namespace furigana.Controls
             {
                 //generate list text
                 _listText.Clear();
+                Children.Clear();
                 foreach (var singleChar in _furiganaModel.FuriganaTexts ?? new ObservableCollection<FuriganaText>())
                 {
                     var furiganaText = new Character();
@@ -66,16 +68,14 @@ namespace furigana.Controls
                     furiganaText.Style = _furiganaModel.Style;
                     var width = furiganaText.Width;
                     _listText.Add(furiganaText);
+                    Children.Add(furiganaText);
                 }
-                //update spacing
-                Spacing = _furiganaModel?.Style?.CharacterSpacing ?? 0;
-                //orientation
-                Orientation = _furiganaModel.Style.Orientation.GetOppositeOrientation();
-                //TODO : auto change new-line
-                ArrangeLayout();
             }
+            //force layout
+            ForceLayout();
         }
 
+        /*
         protected virtual void ArrangeLayout()
         {
             Children.Clear();
@@ -101,7 +101,9 @@ namespace furigana.Controls
                 }
             }
         }
+        */
 
+        /*
         protected override void OnSizeAllocated(double width, double height)
         {
             Debug.WriteLine("width0 : " + Width + " height0 : " + Height);
@@ -113,6 +115,114 @@ namespace furigana.Controls
                 {
                     //ArrangeLayout();
                 }   
+            }
+        }
+        */
+
+        /// <summary>
+        /// TODO : IDK what does it means 
+        /// </summary>
+        /// <param name="widthConstraint"></param>
+        /// <param name="heightConstraint"></param>
+        /// <returns></returns>
+        protected override SizeRequest OnSizeRequest(double widthConstraint, double heightConstraint)
+        {
+            if (WidthRequest > 0)
+                widthConstraint = Math.Min(widthConstraint, WidthRequest);
+            if (HeightRequest > 0)
+                heightConstraint = Math.Min(heightConstraint, HeightRequest);
+
+            var internalWidth = double.IsPositiveInfinity(widthConstraint)
+                ? double.PositiveInfinity
+                : Math.Max(0, widthConstraint);
+            var internalHeight = double.IsPositiveInfinity(heightConstraint)
+                ? double.PositiveInfinity
+                : Math.Max(0, heightConstraint);
+
+            return DoHorizontalMeasure(internalWidth, internalHeight);
+        }
+
+        /// <summary>
+        /// TODO : IDK what does it means
+        /// </summary>
+        /// <param name="widthConstraint"></param>
+        /// <param name="heightConstraint"></param>
+        /// <returns></returns>
+        private SizeRequest DoHorizontalMeasure(double widthConstraint, double heightConstraint)
+        {
+            var rowCount = 1;
+
+            double width = 0;
+            double height = 0;
+            double minWidth = 0;
+            double minHeight = 0;
+            double widthUsed = 0;
+
+            var Spacing = FuriganaModel?.Style?.CharacterSpacing ?? 0;
+
+            foreach (var item in Children)
+            {
+                var size = item.GetSizeRequest(widthConstraint, heightConstraint);
+                height = Math.Max(height, size.Request.Height);
+
+                var newWidth = width + size.Request.Width + Spacing;
+                if (newWidth > widthConstraint)
+                {
+                    rowCount++;
+                    widthUsed = Math.Max(width, widthUsed);
+                    width = size.Request.Width;
+                }
+                else
+                {
+                    width = newWidth;
+                }
+
+                minHeight = Math.Max(minHeight, size.Minimum.Height);
+                minWidth = Math.Max(minWidth, size.Minimum.Width);
+            }
+
+            if (rowCount > 1)
+            {
+                width = Math.Max(width, widthUsed);
+                height = (height + Spacing) * rowCount - Spacing; // via MitchMilam 
+            }
+
+            return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
+        }
+
+        /// <summary>
+        /// TODO : IDK what does it means
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        protected override void LayoutChildren(double x, double y, double width, double height)
+        {
+            var Spacing = FuriganaModel?.Style?.CharacterSpacing ?? 10;
+
+            double rowHeight = 0;
+            double yPos = y, xPos = x;
+
+            foreach (var child in Children.Where(c => c.IsVisible))
+            {
+                var request = child.GetSizeRequest(width, height);
+
+                var childWidth = request.Request.Width;
+                var childHeight = request.Request.Height;
+
+                rowHeight = Math.Max(rowHeight, childHeight);
+
+                if (xPos + childWidth > width)
+                {
+                    xPos = x;
+                    yPos += rowHeight + Spacing;
+                    rowHeight = 0;
+                }
+
+                var region = new Rectangle(xPos, yPos, childWidth, childHeight);
+                LayoutChildIntoBoundingRegion(child, region);
+                xPos += region.Width + Spacing;
             }
         }
     }

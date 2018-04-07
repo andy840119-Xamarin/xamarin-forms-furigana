@@ -18,7 +18,7 @@ namespace furigana.Model
         private double _romajiSpacing;
         private Color? _textColor;
         private bool _autoChangeNewLine = true;
-        private StackOrientation _orientation = StackOrientation.Vertical;
+        private StackOrientation _orientation = StackOrientation.Horizontal;
 
         /// <summary>
         ///     size
