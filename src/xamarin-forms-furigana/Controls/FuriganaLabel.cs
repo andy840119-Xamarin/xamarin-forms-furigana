@@ -27,7 +27,7 @@ namespace furigana.Controls
 
         public FuriganaLabel()
         {
-            Orientation = StackOrientation.Horizontal;
+            
         }
 
         public FuriganaModel FuriganaModel
@@ -58,11 +58,10 @@ namespace furigana.Controls
                 furiganaText.Style = _furiganaModel.Style;
                 Children.Add(furiganaText);
             }
-
             //update spacing
             Spacing = _furiganaModel?.Style?.CharacterSpacing ?? 0;
-            //TODO : orientation
-
+            //orientation
+            Orientation = _furiganaModel.Style.Orientation;
             //TODO : auto change new-line
         }
     }

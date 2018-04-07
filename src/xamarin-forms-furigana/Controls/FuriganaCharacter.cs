@@ -18,18 +18,16 @@ namespace furigana.Controls
             HorizontalTextAlignment = TextAlignment.Center
         };
 
-        private readonly BoxView _furiganaSpacingBox = new BoxView {WidthRequest = 0};
-
-        private FuriganaStyle _furiganaStyle;
-
-        private FuriganaText _furiganaText;
-
         private readonly Label _romajiLabel = new Label
         {
             HorizontalTextAlignment = TextAlignment.Center
         };
 
+        private readonly BoxView _furiganaSpacingBox = new BoxView { WidthRequest = 0 };
         private readonly BoxView _romajiSpacingBox = new BoxView {WidthRequest = 0};
+
+        private FuriganaStyle _furiganaStyle;
+        private FuriganaText _furiganaText;
 
         /// <summary>
         ///     Ctor
@@ -51,6 +49,9 @@ namespace furigana.Controls
             Children.Add(_romajiLabel);
         }
 
+        /// <summary>
+        /// Text
+        /// </summary>
         public FuriganaText Text
         {
             get => _furiganaText;
@@ -70,6 +71,9 @@ namespace furigana.Controls
             }
         }
 
+        /// <summary>
+        /// Style
+        /// </summary>
         public new FuriganaStyle Style
         {
             get => _furiganaStyle;
@@ -90,8 +94,25 @@ namespace furigana.Controls
                 //spacing
                 _furiganaSpacingBox.HeightRequest = _furiganaStyle.FuriganaSpacing;
                 _romajiSpacingBox.HeightRequest = _furiganaStyle.RomajiSpacing;
-                //TODO : orientation
+                //orientation
+                ChangeOrientation();
+            }
+        }
 
+        /// <summary>
+        /// Change orientation
+        /// </summary>
+        protected virtual void ChangeOrientation()
+        {
+            if (_furiganaStyle.Orientation == StackOrientation.Horizontal)
+            {
+                Orientation = StackOrientation.Vertical;
+                _romajiLabel.Rotation = 0;
+            }
+            else
+            {
+                Orientation = StackOrientation.Horizontal;
+                _romajiLabel.Rotation = 90;
             }
         }
     }
