@@ -21,7 +21,7 @@ namespace CustomLayoutsDemo
             {
                 Orientation = StackOrientation.Vertical,
                 VerticalOptions = LayoutOptions.Center,
-                Spacing = 20,
+                Spacing = 0,
                 Children =
                 {
                     new FuriganaLabel
