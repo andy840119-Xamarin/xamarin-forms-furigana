@@ -35,18 +35,6 @@ namespace furigana.Controls
         public FuriganaCharacter()
         {
             Spacing = 0;
-
-            Children.Clear();
-            //furigana
-            Children.Add(_furiganaLabel);
-            //spacing
-            Children.Add(_furiganaSpacingBox);
-            //character
-            Children.Add(_characterLabel);
-            //spacing
-            Children.Add(_romajiSpacingBox);
-            //romaji
-            Children.Add(_romajiLabel);
         }
 
         /// <summary>
@@ -107,12 +95,38 @@ namespace furigana.Controls
             if (_furiganaStyle.Orientation == StackOrientation.Horizontal)
             {
                 Orientation = StackOrientation.Vertical;
+                //rotate
                 _romajiLabel.Rotation = 0;
+                //clear
+                Children.Clear();
+                //furigana
+                Children.Add(_furiganaLabel);
+                //spacing
+                Children.Add(_furiganaSpacingBox);
+                //character
+                Children.Add(_characterLabel);
+                //spacing
+                Children.Add(_romajiSpacingBox);
+                //romaji
+                Children.Add(_romajiLabel);
             }
             else
             {
                 Orientation = StackOrientation.Horizontal;
+                //rotate
                 _romajiLabel.Rotation = 90;
+                //clear
+                Children.Clear();
+                //romaji
+                Children.Add(_romajiLabel);
+                //spacing
+                Children.Add(_romajiSpacingBox);
+                //character
+                Children.Add(_characterLabel);
+                //spacing
+                Children.Add(_furiganaSpacingBox);
+                //furigana
+                Children.Add(_furiganaLabel);
             }
         }
     }
