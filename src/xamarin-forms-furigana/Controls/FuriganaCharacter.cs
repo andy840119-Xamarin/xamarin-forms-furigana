@@ -1,4 +1,5 @@
 ﻿using furigana.Model;
+using Furigana.Extension;
 using System;
 using Xamarin.Forms;
 
@@ -57,7 +58,7 @@ namespace furigana.Controls
                     throw new ArgumentNullException(nameof(FuriganaStyle) + "Cannot be null");
 
                 //orientation
-                var characterOrientation = _furiganaStyle.Orientation == StackOrientation.Vertical ? StackOrientation.Horizontal : StackOrientation.Vertical;
+                var characterOrientation = _furiganaStyle.Orientation.GetOppositeOrientation();
                 ChangeOrientation(characterOrientation);
 
                 //style
