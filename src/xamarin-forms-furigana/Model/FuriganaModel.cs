@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using furigana.Annotations;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace furigana.Model
 {
@@ -16,10 +19,9 @@ namespace furigana.Model
         {
             FuriganaTexts.CollectionChanged += (a, b) =>
             {
-                PropertyChanged?.Invoke(a, new PropertyChangedEventArgs("喵"));
+                OnPropertyChanged();
             };
-
-            Style.PropertyChanged += (a, b) => { PropertyChanged?.Invoke(a, b); };
+            Style.PropertyChanged += (a, b) => { OnPropertyChanged(); };
         }
 
         /// <summary>
@@ -33,6 +35,19 @@ namespace furigana.Model
         /// </summary>
         public FuriganaStyle Style { get; set; } = new FuriganaStyle();
 
+        /// <summary>
+        ///     Event
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        ///     Invoke
+        /// </summary>
+        /// <param name="propertyName"></param>
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

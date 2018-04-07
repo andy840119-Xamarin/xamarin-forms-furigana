@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using furigana.Annotations;
+using Xamarin.Forms;
 
 namespace furigana.Model
 {
     /// <summary>
-    ///     define the size and position of text
+    ///     Define the size and position of text
     /// </summary>
     public class FuriganaStyle : INotifyPropertyChanged
     {
@@ -15,9 +16,12 @@ namespace furigana.Model
         private double _characterSpacing = 1;
         private double _furiganaSpacing;
         private double _romajiSpacing;
+        private Color? _textColor;
+        private bool _autoChangeNewLine = true;
+        private StackOrientation _orientation = StackOrientation.Vertical;
 
         /// <summary>
-        ///     size
+        ///     Size
         /// </summary>
         public double FuriganaFontSize
         {
@@ -30,7 +34,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     size
+        ///     Size
         /// </summary>
         public double CharacterFontSize
         {
@@ -43,7 +47,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     size
+        ///     Size
         /// </summary>
         public double RomajiFontSize
         {
@@ -56,7 +60,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     spacing between chatacters
+        ///     Spacing between two chatacters
         /// </summary>
         public double CharacterSpacing 
         {
@@ -69,7 +73,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     spacing between furigana and character
+        ///     Spacing between furigana and character
         /// </summary>
         public double FuriganaSpacing
         {
@@ -82,7 +86,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     spacing between romaji and character
+        ///     Spacing between romaji and character
         /// </summary>
         public double RomajiSpacing
         {
@@ -95,12 +99,57 @@ namespace furigana.Model
         }
 
         /// <summary>
-        /// Event
+        ///     Text color
+        /// </summary>
+        public Color? TextColor
+        {
+            get => _textColor;
+            set
+            {
+                _textColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Auto change new-line
+        /// </summary>
+        public bool AutoChangeNewLine
+        {
+            get => _autoChangeNewLine;
+            set
+            {
+                if (_autoChangeNewLine != value)
+                {
+                    _autoChangeNewLine = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Orientation
+        /// </summary>
+        public StackOrientation Orientation
+        {
+            get => _orientation;
+            set
+            {
+                if (_orientation != value)
+                {
+                    _orientation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Event
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// invoke
+        ///     Invoke
         /// </summary>
         /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]
