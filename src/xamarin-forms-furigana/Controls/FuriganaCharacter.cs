@@ -90,6 +90,8 @@ namespace furigana.Controls
                 //spacing
                 _furiganaSpacingBox.HeightRequest = _furiganaStyle.FuriganaSpacing;
                 _romajiSpacingBox.HeightRequest = _furiganaStyle.RomajiSpacing;
+                //TODO : orientation
+
             }
         }
     }

@@ -17,6 +17,8 @@ namespace furigana.Model
         private double _furiganaSpacing;
         private double _romajiSpacing;
         private Color? _textColor;
+        private bool _autoChangeNewLine = true;
+        private StackOrientation _orientation = StackOrientation.Horizontal;
 
         /// <summary>
         ///     size
@@ -106,6 +108,38 @@ namespace furigana.Model
             {
                 _textColor = value;
                 OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// auto change new-line
+        /// </summary>
+        public bool AutoChangeNewLine
+        {
+            get => _autoChangeNewLine;
+            set
+            {
+                if (_autoChangeNewLine != value)
+                {
+                    _autoChangeNewLine = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// orientation
+        /// </summary>
+        public StackOrientation Orientation
+        {
+            get => _orientation;
+            set
+            {
+                if (_orientation != value)
+                {
+                    _orientation = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

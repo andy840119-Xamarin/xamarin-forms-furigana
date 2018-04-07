@@ -11,6 +11,7 @@ namespace furigana.Controls
     /// </summary>
     public class FuriganaLabel : FuriganaLabel<FuriganaCharacter>
     {
+
     }
 
     /// <summary>
@@ -60,6 +61,9 @@ namespace furigana.Controls
 
             //update spacing
             Spacing = _furiganaModel?.Style?.CharacterSpacing ?? 0;
+            //TODO : orientation
+
+            //TODO : auto change new-line
         }
     }
 }

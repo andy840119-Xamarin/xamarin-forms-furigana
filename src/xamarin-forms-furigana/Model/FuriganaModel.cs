@@ -12,9 +12,6 @@ namespace furigana.Model
     /// </summary>
     public class FuriganaModel : INotifyPropertyChanged
     {
-        private bool _autoChangeNewLine = true;
-        private StackOrientation _orientation;
-
         /// <summary>
         ///     Ctor
         /// </summary>
@@ -24,7 +21,6 @@ namespace furigana.Model
             {
                 OnPropertyChanged();
             };
-
             Style.PropertyChanged += (a, b) => { OnPropertyChanged(); };
         }
 
@@ -40,36 +36,8 @@ namespace furigana.Model
         public FuriganaStyle Style { get; set; } = new FuriganaStyle();
 
         /// <summary>
-        /// auto change new-line
+        /// Event
         /// </summary>
-        public bool AutoChangeNewLine {
-            get => _autoChangeNewLine;
-            set
-            {
-                if (_autoChangeNewLine != value)
-                {
-                    _autoChangeNewLine = value;
-                    OnPropertyChanged();
-                }
-            }
-        } 
-
-        /// <summary>
-        /// orientation
-        /// </summary>
-        public StackOrientation Orientation
-        {
-            get => _orientation;
-            set
-            {
-                if (_orientation != value)
-                {
-                    _orientation = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
