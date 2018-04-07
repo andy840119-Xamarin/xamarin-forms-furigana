@@ -38,9 +38,14 @@ namespace furigana.Controls
             get => _furiganaText;
             set
             {
-                _furiganaText = value;
-                if (_furiganaText == null)
+                if (value == null)
                     throw new ArgumentNullException(nameof(FuriganaText) + "Cannot be null");
+
+                if (_furiganaText != value)
+                {
+                    _furiganaText = value;
+                    _furiganaText.PropertyChanged += (a, b) => { UpdateText(); };
+                }
                 UpdateText();
             }
         }
@@ -53,10 +58,8 @@ namespace furigana.Controls
             get => _furiganaStyle;
             set
             {
-                _furiganaStyle = value;
-                if (_furiganaText == null)
-                    throw new ArgumentNullException(nameof(FuriganaStyle) + "Cannot be null");
-
+                _furiganaStyle = value ?? throw new ArgumentNullException(nameof(FuriganaStyle) + "Cannot be null");
+                
                 //orientation
                 var characterOrientation = _furiganaStyle.Orientation.GetOppositeOrientation();
                 ChangeOrientation(characterOrientation);
