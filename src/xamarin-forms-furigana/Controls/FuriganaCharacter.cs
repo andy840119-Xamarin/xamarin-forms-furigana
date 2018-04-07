@@ -60,18 +60,34 @@ namespace furigana.Controls
                 _furiganaLabel.Text = _furiganaText.Furigana;
                 _characterLabel.Text = _furiganaText.Character;
                 _romajiLabel.Text = _furiganaText.Romaji;
+
+                if (_furiganaText.TextColor != null)
+                {
+                    _furiganaLabel.TextColor = _furiganaText.TextColor.Value;
+                    _characterLabel.TextColor = _furiganaText.TextColor.Value;
+                    _romajiLabel.TextColor = _furiganaText.TextColor.Value;
+                }
             }
         }
 
-        public FuriganaStyle Style
+        public new FuriganaStyle Style
         {
             get => _furiganaStyle;
             set
             {
                 _furiganaStyle = value;
+                //font size
                 _furiganaLabel.FontSize = _furiganaStyle.FuriganaFontSize;
                 _characterLabel.FontSize = _furiganaStyle.CharacterFontSize;
                 _romajiLabel.FontSize = _furiganaStyle.RomajiFontSize;
+                if (_furiganaStyle.TextColor != null && Text.TextColor == null)
+                {
+                    //color
+                    _furiganaLabel.TextColor = _furiganaStyle.TextColor.Value;
+                    _characterLabel.TextColor = _furiganaStyle.TextColor.Value;
+                    _romajiLabel.TextColor = _furiganaStyle.TextColor.Value;
+                }
+                //spacing
                 _furiganaSpacingBox.HeightRequest = _furiganaStyle.FuriganaSpacing;
                 _romajiSpacingBox.HeightRequest = _furiganaStyle.RomajiSpacing;
             }

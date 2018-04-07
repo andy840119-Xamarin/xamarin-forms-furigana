@@ -1,4 +1,6 @@
-﻿namespace furigana.Model
+﻿using Xamarin.Forms;
+
+namespace furigana.Model
 {
     /// <summary>
     ///     define each of character
@@ -39,5 +41,10 @@
         ///     Romaji
         /// </summary>
         public string Romaji { get; set; }
+
+        /// <summary>
+        /// Text color
+        /// </summary>
+        public Color? TextColor { get; set; } 
     }
 }

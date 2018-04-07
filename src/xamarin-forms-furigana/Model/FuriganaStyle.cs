@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using furigana.Annotations;
+using Xamarin.Forms;
 
 namespace furigana.Model
 {
@@ -15,6 +16,7 @@ namespace furigana.Model
         private double _characterSpacing = 1;
         private double _furiganaSpacing;
         private double _romajiSpacing;
+        private Color? _textColor;
 
         /// <summary>
         ///     size
@@ -56,7 +58,7 @@ namespace furigana.Model
         }
 
         /// <summary>
-        ///     spacing between chatacters
+        ///     spacing between two chatacters
         /// </summary>
         public double CharacterSpacing 
         {
@@ -90,6 +92,19 @@ namespace furigana.Model
             set
             {
                 _romajiSpacing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Text color
+        /// </summary>
+        public Color? TextColor
+        {
+            get => _textColor;
+            set
+            {
+                _textColor = value;
                 OnPropertyChanged();
             }
         }
