@@ -47,6 +47,9 @@ namespace furigana.Controls
             }
         }
 
+        protected StackOrientation Orientation => FuriganaModel?.Style?.Orientation ?? StackOrientation.Horizontal;
+        protected double Spacing => FuriganaModel?.Style?.CharacterSpacing ?? 0;
+
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
@@ -113,37 +116,72 @@ namespace furigana.Controls
             double minWidth = 0;
             double minHeight = 0;
             double widthUsed = 0;
+            double heightUsed = 0;
 
-            var Spacing = FuriganaModel?.Style?.CharacterSpacing ?? 0;
 
-            foreach (var item in Children)
+            if (Orientation == StackOrientation.Horizontal)
             {
-                var size = item.Measure(widthConstraint, heightConstraint);
-                height = Math.Max(height, size.Request.Height);
-
-                var newWidth = width + size.Request.Width + Spacing;
-                if (newWidth > widthConstraint)
+                foreach (var item in Children)
                 {
-                    rowCount++;
-                    widthUsed = Math.Max(width, widthUsed);
-                    width = size.Request.Width;
-                }
-                else
-                {
-                    width = newWidth;
+                    var size = item.Measure(widthConstraint, heightConstraint);
+                    height = Math.Max(height, size.Request.Height);
+
+                    var newWidth = width + size.Request.Width + Spacing;
+                    if (newWidth > widthConstraint)
+                    {
+                        rowCount++;
+                        widthUsed = Math.Max(width, widthUsed);
+                        width = size.Request.Width;
+                    }
+                    else
+                    {
+                        width = newWidth;
+                    }
+
+                    minHeight = Math.Max(minHeight, size.Minimum.Height);
+                    minWidth = Math.Max(minWidth, size.Minimum.Width);
                 }
 
-                minHeight = Math.Max(minHeight, size.Minimum.Height);
-                minWidth = Math.Max(minWidth, size.Minimum.Width);
+                if (rowCount > 1)
+                {
+                    width = Math.Max(width, widthUsed);
+                    height = (height + Spacing) * rowCount - Spacing; // via MitchMilam 
+                }
+
+                return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
             }
-
-            if (rowCount > 1)
+            else
             {
-                width = Math.Max(width, widthUsed);
-                height = (height + Spacing) * rowCount - Spacing; // via MitchMilam 
-            }
+                foreach (var item in Children)
+                {
+                    var size = item.Measure(widthConstraint, heightConstraint);
+                    width = Math.Max(width, size.Request.Width);
 
-            return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
+                    var newHeight = height + size.Request.Height + Spacing;
+                    if (newHeight > heightConstraint)
+                    {
+                        rowCount++;
+                        heightUsed = Math.Max(height, heightUsed);
+                        height = size.Request.Height;
+                    }
+                    else
+                    {
+                        height = newHeight;
+                    }
+
+                    minHeight = Math.Max(minHeight, size.Minimum.Height);
+                    minWidth = Math.Max(minWidth, size.Minimum.Width);
+                }
+
+                if (rowCount > 1)
+                {
+                    width = Math.Max(width, widthUsed);
+                    height = (height + Spacing) * rowCount - Spacing; // via MitchMilam 
+                }
+
+                return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
+            }
+            
         }
 
         /// <summary>
@@ -155,31 +193,56 @@ namespace furigana.Controls
         /// <param name="height"></param>
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
-            var Spacing = FuriganaModel?.Style?.CharacterSpacing ?? 10;
-
+            double rowWidth = 0;
             double rowHeight = 0;
             double yPos = y, xPos = x;
 
-            foreach (var child in Children.Where(c => c.IsVisible))
+            if (Orientation == StackOrientation.Horizontal)
             {
-                var request = child.Measure(width, height);
-
-                var childWidth = request.Request.Width;
-                var childHeight = request.Request.Height;
-
-                rowHeight = Math.Max(rowHeight, childHeight);
-
-                if (xPos + childWidth > width)
+                foreach (var child in Children.Where(c => c.IsVisible))
                 {
-                    xPos = x;
-                    yPos += rowHeight + Spacing;
-                    rowHeight = 0;
-                }
+                    var request = child.Measure(width, height);
 
-                var region = new Rectangle(xPos, yPos, childWidth, childHeight);
-                LayoutChildIntoBoundingRegion(child, region);
-                xPos += region.Width + Spacing;
+                    var childWidth = request.Request.Width;
+                    var childHeight = request.Request.Height;
+
+                    rowHeight = Math.Max(rowHeight, childHeight);
+
+                    if (xPos + childWidth > width)
+                    {
+                        xPos = x;
+                        yPos += rowHeight + Spacing;
+                        rowHeight = 0;
+                    }
+
+                    var region = new Rectangle(xPos, yPos, childWidth, childHeight);
+                    LayoutChildIntoBoundingRegion(child, region);
+                    xPos += region.Width + Spacing;
+                }
             }
+            else
+            {
+                foreach (var child in Children.Where(c => c.IsVisible))
+                {
+                    var request = child.Measure(width, height);
+                    var childWidth = request.Request.Width;
+                    var childHeight = request.Request.Height;
+
+                    rowWidth = Math.Max(rowWidth, childWidth);
+
+                    if (yPos + childHeight > height)
+                    {
+                        xPos = xPos + rowWidth +Spacing;
+                        yPos = y;
+                        rowWidth = 0;
+                    }
+
+                    var region = new Rectangle(xPos, yPos, childWidth, childHeight);
+                    LayoutChildIntoBoundingRegion(child, region);
+                    yPos += region.Height + Spacing;
+                }
+            }
+                
         }
     }
 }
