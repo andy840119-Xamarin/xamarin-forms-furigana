@@ -1,5 +1,6 @@
 ﻿using furigana.Model;
 using Furigana.Extension;
+using Furigana.Helper;
 using System;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
@@ -313,9 +314,10 @@ namespace furigana.Controls
         {
             if (Text != null)
             {
-                _furiganaLabel.Text = Text.Furigana;
-                _characterLabel.Text = Text.Character;
-                _romajiLabel.Text = Text.Romaji;
+                var orientation = Orientation.GetOppositeOrientation();
+                _furiganaLabel.FormattedText = FormattedStringHelper.MakeOrientationFormattedString(string.IsNullOrEmpty(Text.Furigana)? " " : Text.Furigana, orientation);
+                _characterLabel.FormattedText = FormattedStringHelper.MakeOrientationFormattedString(string.IsNullOrEmpty(Text.Character) ? " " : Text.Character, orientation);
+                _romajiLabel.Text = string.IsNullOrEmpty(Text.Romaji) ? " " : Text.Romaji;
 
                 if (_furiganaText.TextColor != null)
                 {

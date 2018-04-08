@@ -11,6 +11,20 @@ namespace Furigana.Helper
     public static class FormattedStringHelper
     {
         /// <summary>
+        /// Make orientation foramtted string
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="orientation"></param>
+        /// <returns></returns>
+        public static FormattedString MakeOrientationFormattedString(string str, StackOrientation orientation)
+        {
+            if (orientation == StackOrientation.Vertical)
+                return MakeTextVertical(str);
+            else
+                return MakeTextHorizontal(str);
+        }
+
+        /// <summary>
         /// Gemerate Vertical text
         /// </summary>
         /// <param name="str"></param>

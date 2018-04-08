@@ -181,7 +181,7 @@ namespace furigana.Controls
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException(nameof(FuriganaModel) + "Cannot be null");
+                    throw new ArgumentNullException(nameof(TextModel) + "Cannot be null");
 
                 if (_text != value)
                 {
