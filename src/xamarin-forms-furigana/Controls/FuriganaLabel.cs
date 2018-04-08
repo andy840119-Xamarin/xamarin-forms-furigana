@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using furigana.Model;
 using Furigana.Extension;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace furigana.Controls
 {
@@ -13,7 +15,7 @@ namespace furigana.Controls
     ///     Label
     ///     Contain list of character <see cref="FuriganaCharacter" />
     /// </summary>
-    public class FuriganaLabel : FuriganaLabel<FuriganaCharacter>
+    public class FuriganaLabel : FuriganaLabel<FuriganaCharacter, FuriganaText>
     {
 
     }
@@ -22,14 +24,22 @@ namespace furigana.Controls
     ///     Label
     ///     contain list of character <see cref="FuriganaText" />
     /// </summary>
-    public class FuriganaLabel<Character> : Layout<Character> where Character : FuriganaCharacter, new()
+    public class FuriganaLabel<Character,TextModel> : Layout<Character> where Character : FuriganaCharacter, new() where TextModel : FuriganaText , new ()
     {
-        private FuriganaModel _furiganaModel;
-
+        //local
         private int _totalLines = 1;
 
-        protected StackOrientation Orientation => FuriganaModel?.Style?.Orientation ?? StackOrientation.Horizontal;
-        protected double Spacing => FuriganaModel?.Style?.CharacterSpacing ?? 0;
+        //property
+        private double _furiganaFontSize = 8;
+        private double _characterFontSize = 15;
+        private double _romajiFontSize = 7;
+        private double _characterSpacing = 1;
+        private double _furiganaSpacing;
+        private double _romajiSpacing;
+        private Color? _textColor;
+        private bool _autoChangeNewLine = true;
+        private StackOrientation _orientation = StackOrientation.Horizontal;
+        private ObservableCollection<TextModel> _text;
 
         /// <summary>
         /// Ctor
@@ -40,23 +50,196 @@ namespace furigana.Controls
         }
 
         /// <summary>
+        ///     Size
+        /// </summary>
+        public double FuriganaFontSize
+        {
+            get => _furiganaFontSize;
+            set
+            {
+                _furiganaFontSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Size
+        /// </summary>
+        public double CharacterFontSize
+        {
+            get => _characterFontSize;
+            set
+            {
+                _characterFontSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Size
+        /// </summary>
+        public double RomajiFontSize
+        {
+            get => _romajiFontSize;
+            set
+            {
+                _romajiFontSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Spacing between two chatacters
+        /// </summary>
+        public double Spacing
+        {
+            get => _characterSpacing;
+            set
+            {
+                _characterSpacing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Spacing between furigana and character
+        /// </summary>
+        public double FuriganaSpacing
+        {
+            get => _furiganaSpacing;
+            set
+            {
+                _furiganaSpacing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Spacing between romaji and character
+        /// </summary>
+        public double RomajiSpacing
+        {
+            get => _romajiSpacing;
+            set
+            {
+                _romajiSpacing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Text color
+        /// </summary>
+        public Color? TextColor
+        {
+            get => _textColor;
+            set
+            {
+                _textColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Auto change new-line
+        /// </summary>
+        public bool AutoChangeNewLine
+        {
+            get => _autoChangeNewLine;
+            set
+            {
+                if (_autoChangeNewLine != value)
+                {
+                    _autoChangeNewLine = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Orientation
+        /// </summary>
+        public StackOrientation Orientation
+        {
+            get => _orientation;
+            set
+            {
+                if (_orientation != value)
+                {
+                    _orientation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// Model
         /// </summary>
-        public FuriganaModel FuriganaModel
+        public ObservableCollection<TextModel> Text
         {
-            get => _furiganaModel;
+            get => _text;
             set
             {
                 if (value == null)
                     throw new ArgumentNullException(nameof(FuriganaModel) + "Cannot be null");
 
-                if (_furiganaModel != value)
+                if (_text != value)
                 {
-                    _furiganaModel = value;
-                    _furiganaModel.PropertyChanged += (a, b) => { PropertyChange(); };
+                    _text = value;
+                    _text.CollectionChanged += (a, b) => { OnPropertyChanged(); };
                 }
 
-                PropertyChange();
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// property change
+        /// </summary>
+        /// <param name="propertyName"></param>
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case "FuriganaFontSize":
+                    Children.ForEach(X => X.FuriganaFontSize = FuriganaFontSize);
+                    ForceLayout();
+                    break;
+                case "CharacterFontSize":
+                    Children.ForEach(X => X.CharacterFontSize = CharacterFontSize);
+                    ForceLayout();
+                    break;
+                case "RomajiFontSize":
+                    Children.ForEach(X => X.RomajiFontSize = RomajiFontSize);
+                    ForceLayout();
+                    break;
+                case "Spacing":
+                    ForceLayout();
+                    break;
+                case "FuriganaSpacing":
+                    Children.ForEach(X => X.FuriganaSpacing = FuriganaSpacing);
+                    ForceLayout();
+                    break;
+                case "RomajiSpacing":
+                    Children.ForEach(X => X.RomajiSpacing = RomajiSpacing);
+                    ForceLayout();
+                    break;
+                case "TextColor":
+                    Children.ForEach(X=>X.TextColor = TextColor);
+                    break;
+                case "AutoChangeNewLine":
+                    ForceLayout();
+                    break;
+                case "Orientation":
+                    //Children.ForEach(X => X.Orientation = Orientation.GetOppositeOrientation());
+                    //ForceLayout();
+                    InitialText();
+                    break;
+                case "Text":
+                    InitialText();
+                    break;
             }
         }
 
@@ -68,8 +251,8 @@ namespace furigana.Controls
             base.OnBindingContextChanged();
 
             //change model
-            if (BindingContext is FuriganaModel model)
-                FuriganaModel = model;
+            if (BindingContext is ObservableCollection<TextModel> text)
+                Text = text;
         }
 
         /// <summary>
@@ -77,18 +260,26 @@ namespace furigana.Controls
         /// now is clean and re-generate everying
         /// TODO : optomize this 
         /// </summary>
-        protected virtual void PropertyChange()
+        protected virtual void InitialText()
         {
-            if (FuriganaModel != null)
+            if (Text != null)
             {
                 //generate list text
                 Children.Clear();
-                foreach (var singleChar in _furiganaModel.FuriganaTexts ?? new ObservableCollection<FuriganaText>())
+                foreach (var singleChar in Text ?? new ObservableCollection<TextModel>())
                 {
                     var furiganaText = new Character();
+                    furiganaText.FuriganaFontSize = FuriganaFontSize;
+                    furiganaText.CharacterFontSize = CharacterFontSize;
+                    furiganaText.RomajiFontSize = RomajiFontSize;
+                    furiganaText.FuriganaSpacing = FuriganaSpacing;
+                    furiganaText.RomajiSpacing = RomajiSpacing;
+                    furiganaText.Orientation = Orientation.GetOppositeOrientation();
                     furiganaText.Text = singleChar;
-                    furiganaText.Style = _furiganaModel.Style;
-                    var width = furiganaText.Width;
+                    //if need change text color
+                    if (TextColor != null)
+                        furiganaText.TextColor = TextColor;
+                    //add in child
                     Children.Add(furiganaText);
                 }
             }

@@ -19,7 +19,11 @@ namespace CustomLayoutsDemo
 
             Content = new FuriganaLabel
             {
-                BindingContext = _viewModel.FuriganaModel
+                CharacterFontSize = 20,
+                RomajiFontSize = 12,
+                FuriganaFontSize = 10,
+                Orientation = StackOrientation.Vertical,
+                BindingContext = _viewModel.Texts,
             };
         }
     }

@@ -1,6 +1,7 @@
 ﻿using furigana.Model;
 using Furigana.Extension;
 using System;
+using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 namespace furigana.Controls
@@ -10,6 +11,7 @@ namespace furigana.Controls
     /// </summary>
     public class FuriganaCharacter : StackLayout
     {
+        #region UI
         private Label _characterLabel;
         private Label _furiganaLabel;
         private Label _romajiLabel;
@@ -17,8 +19,19 @@ namespace furigana.Controls
         private BoxView _furiganaSpacingBox;
         private BoxView _romajiSpacingBox;
 
-        private FuriganaStyle _furiganaStyle;
         private FuriganaText _furiganaText;
+        #endregion
+
+        #region Property
+        private double _furiganaFontSize = 8;
+        private double _characterFontSize = 15;
+        private double _romajiFontSize = 7;
+        private double _furiganaSpacing = 0;
+        private double _romajiSpacing = 0;
+        private Color? _textColor;
+        private bool _autoChangeNewLine = true;
+        private StackOrientation _orientation = StackOrientation.Vertical;
+        #endregion
 
         /// <summary>
         ///     Ctor
@@ -26,8 +39,102 @@ namespace furigana.Controls
         public FuriganaCharacter()
         {
             Spacing = 0;
-            Orientation = StackOrientation.Horizontal;
-            ChangeOrientation(StackOrientation.Vertical);
+            base.Orientation = StackOrientation.Horizontal;
+            ChangeOrientation();
+        }
+
+        /// <summary>
+        ///     Size
+        /// </summary>
+        public double FuriganaFontSize
+        {
+            get => _furiganaFontSize;
+            set
+            {
+                _furiganaFontSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Size
+        /// </summary>
+        public double CharacterFontSize
+        {
+            get => _characterFontSize;
+            set
+            {
+                _characterFontSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Size
+        /// </summary>
+        public double RomajiFontSize
+        {
+            get => _romajiFontSize;
+            set
+            {
+                _romajiFontSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Spacing between furigana and character
+        /// </summary>
+        public double FuriganaSpacing
+        {
+            get => _furiganaSpacing;
+            set
+            {
+                _furiganaSpacing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Spacing between romaji and character
+        /// </summary>
+        public double RomajiSpacing
+        {
+            get => _romajiSpacing;
+            set
+            {
+                _romajiSpacing = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Text color
+        /// </summary>
+        public Color? TextColor
+        {
+            get => _textColor;
+            set
+            {
+                _textColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Orientation
+        /// </summary>
+        public new StackOrientation Orientation
+        {
+            get => _orientation;
+            set
+            {
+                if (_orientation != value)
+                {
+                    _orientation = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -44,78 +151,45 @@ namespace furigana.Controls
                 if (_furiganaText != value)
                 {
                     _furiganaText = value;
-                    _furiganaText.PropertyChanged += (a, b) => { UpdateText(); };
+                    _furiganaText.PropertyChanged += (a, b) => { OnPropertyChanged(); };
                 }
-                UpdateText();
+                OnPropertyChanged();
             }
         }
 
         /// <summary>
-        ///     Style
+        /// property change
         /// </summary>
-        public new FuriganaStyle Style
+        /// <param name="propertyName"></param>
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            get => _furiganaStyle;
-            set
+            base.OnPropertyChanged(propertyName);
+            switch (propertyName)
             {
-                _furiganaStyle = value ?? throw new ArgumentNullException(nameof(FuriganaStyle) + "Cannot be null");
-                
-                //orientation
-                var characterOrientation = _furiganaStyle.Orientation.GetOppositeOrientation();
-                ChangeOrientation(characterOrientation);
-
-                //style
-                UpdateStyle();
-            }
-        }
-
-        /// <summary>
-        ///     Update style
-        /// </summary>
-        protected void UpdateStyle()
-        {
-            //font size
-            _furiganaLabel.FontSize = _furiganaStyle.FuriganaFontSize;
-            _characterLabel.FontSize = _furiganaStyle.CharacterFontSize;
-            _romajiLabel.FontSize = _furiganaStyle.RomajiFontSize;
-            if (_furiganaStyle.TextColor != null && Text.TextColor == null)
-            {
-                //color
-                _furiganaLabel.TextColor = _furiganaStyle.TextColor.Value;
-                _characterLabel.TextColor = _furiganaStyle.TextColor.Value;
-                _romajiLabel.TextColor = _furiganaStyle.TextColor.Value;
-            }
-            if (Orientation == StackOrientation.Vertical)
-            {
-                //spacing
-                _furiganaSpacingBox.HeightRequest = _furiganaStyle.FuriganaSpacing;
-                _romajiSpacingBox.HeightRequest = _furiganaStyle.RomajiSpacing;
-            }
-            else
-            {
-                //spacing
-                _furiganaSpacingBox.WidthRequest = _furiganaStyle.FuriganaSpacing;
-                _romajiSpacingBox.WidthRequest = _furiganaStyle.RomajiSpacing;
-            }
-        }
-
-        /// <summary>
-        ///     Update text
-        /// </summary>
-        protected void UpdateText()
-        {
-            if (Text != null)
-            {
-                _furiganaLabel.Text = Text.Furigana;
-                _characterLabel.Text = Text.Character;
-                _romajiLabel.Text = Text.Romaji;
-
-                if (_furiganaText.TextColor != null)
-                {
-                    _furiganaLabel.TextColor = Text.TextColor.Value;
-                    _characterLabel.TextColor = Text.TextColor.Value;
-                    _romajiLabel.TextColor = Text.TextColor.Value;
-                }
+                case "FuriganaFontSize":
+                    UpdateStyle();
+                    break;
+                case "CharacterFontSize":
+                    UpdateStyle();
+                    break;
+                case "RomajiFontSize":
+                    UpdateStyle();
+                    break;
+                case "FuriganaSpacing":
+                    UpdateStyle();
+                    break;
+                case "RomajiSpacing":
+                    UpdateStyle();
+                    break;
+                case "TextColor":
+                    UpdateStyle();
+                    break;
+                case "Orientation":
+                    ChangeOrientation();
+                    break;
+                case "Text":
+                    UpdateText();
+                    break;
             }
         }
 
@@ -123,9 +197,9 @@ namespace furigana.Controls
         ///     Change orientation
         /// </summary>
         /// <param name="orientation">Character's oriention,not the string's orientation. They are relativce</param>
-        protected virtual void ChangeOrientation(StackOrientation orientation)
+        protected virtual void ChangeOrientation()
         {
-            if (Orientation != orientation)
+            if (base.Orientation != Orientation)
             {
                 _characterLabel = new Label
                 {
@@ -148,9 +222,9 @@ namespace furigana.Controls
                 _furiganaSpacingBox = new BoxView();
                 _romajiSpacingBox = new BoxView();
 
-                if (orientation == StackOrientation.Vertical)
+                if (Orientation == StackOrientation.Vertical)
                 {
-                    Orientation = StackOrientation.Vertical;
+                    base.Orientation = StackOrientation.Vertical;
                     _furiganaSpacingBox.WidthRequest = 0;
                     _romajiSpacingBox.WidthRequest = 0;
 
@@ -171,18 +245,15 @@ namespace furigana.Controls
                 }
                 else
                 {
-                    Orientation = StackOrientation.Horizontal;
-                    if (Style != null)
-                    {
-                        _furiganaLabel.WidthRequest = Style.FuriganaFontSize;
-                        _characterLabel.WidthRequest = Style.CharacterFontSize;
+                    base.Orientation = StackOrientation.Horizontal;
 
-                        //rotate
-                        _romajiLabel.Rotation = 90;
-                        //because even rotate 90 degree, width still affect stackLayout,
-                        //so add *3 to tricky aviod that(romaji text)
-                        _romajiLabel.WidthRequest = Style.RomajiFontSize * 3; 
-                    }
+                    _furiganaLabel.WidthRequest = FuriganaFontSize;
+                    _characterLabel.WidthRequest = CharacterFontSize;
+                    //rotate
+                    _romajiLabel.Rotation = 90;
+                    //because even rotate 90 degree, width still affect stackLayout,
+                    //so add *3 to tricky aviod that(romaji text)
+                    _romajiLabel.WidthRequest = RomajiFontSize * 3;
                     _furiganaSpacingBox.HeightRequest = 0;
                     _romajiSpacingBox.HeightRequest = 0;
                     //clear
@@ -198,7 +269,60 @@ namespace furigana.Controls
                     //furigana
                     Children.Add(_furiganaLabel);
                 }
+                //update text
                 UpdateText();
+                //update style
+                UpdateStyle();
+            }
+        }
+
+        /// <summary>
+        ///     Update style
+        /// </summary>
+        protected void UpdateStyle()
+        {
+            //font size
+            _furiganaLabel.FontSize = FuriganaFontSize;
+            _characterLabel.FontSize = CharacterFontSize;
+            _romajiLabel.FontSize = RomajiFontSize;
+            if (TextColor != null)
+            {
+                //color
+                _furiganaLabel.TextColor = TextColor.Value;
+                _characterLabel.TextColor = TextColor.Value;
+                _romajiLabel.TextColor = TextColor.Value;
+            }
+            if (Orientation == StackOrientation.Vertical)
+            {
+                //spacing
+                _furiganaSpacingBox.HeightRequest = FuriganaSpacing;
+                _romajiSpacingBox.HeightRequest = RomajiSpacing;
+            }
+            else
+            {
+                //spacing
+                _furiganaSpacingBox.WidthRequest = FuriganaSpacing;
+                _romajiSpacingBox.WidthRequest = RomajiSpacing;
+            }
+        }
+
+        /// <summary>
+        ///     Update text
+        /// </summary>
+        protected void UpdateText()
+        {
+            if (Text != null)
+            {
+                _furiganaLabel.Text = Text.Furigana;
+                _characterLabel.Text = Text.Character;
+                _romajiLabel.Text = Text.Romaji;
+
+                if (_furiganaText.TextColor != null)
+                {
+                    _furiganaLabel.TextColor = Text.TextColor.Value;
+                    _characterLabel.TextColor = Text.TextColor.Value;
+                    _romajiLabel.TextColor = Text.TextColor.Value;
+                }
             }
         }
     }
