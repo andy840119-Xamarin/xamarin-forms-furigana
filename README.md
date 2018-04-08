@@ -14,6 +14,10 @@ https://en.wikipedia.org/wiki/Furigana
 ver V1.1.0   
  - vertical text support.   
  - auto-change new line.   
+ver V1.2.0(TODO)   
+ - add a command to change new line.   
+ - fix character arrange error(romaji).
+ - fix symbol not auto change line in vertical mode.
 .   
 Demo :   
 <p align="center">
