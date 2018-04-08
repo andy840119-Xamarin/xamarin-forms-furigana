@@ -26,6 +26,8 @@ namespace furigana.Controls
     {
         private FuriganaModel _furiganaModel;
 
+        private int _totalLines = 1;
+
         protected StackOrientation Orientation => FuriganaModel?.Style?.Orientation ?? StackOrientation.Horizontal;
         protected double Spacing => FuriganaModel?.Style?.CharacterSpacing ?? 0;
 
@@ -126,7 +128,7 @@ namespace furigana.Controls
         /// <returns></returns>
         private SizeRequest DoHorizontalMeasure(double widthConstraint, double heightConstraint)
         {
-            var rowCount = 1;
+            _totalLines = 1;
             bool newLine = false;
 
             double width = 0;
@@ -147,7 +149,7 @@ namespace furigana.Controls
                     var newWidth = width + size.Request.Width + Spacing;
                     if (newWidth > widthConstraint || newLine)
                     {
-                        rowCount++;
+                        _totalLines++;
                         widthUsed = Math.Max(width, widthUsed);
                         width = size.Request.Width;
                         newLine = false;
@@ -166,10 +168,10 @@ namespace furigana.Controls
                     minWidth = Math.Max(minWidth, size.Minimum.Width);
                 }
 
-                if (rowCount > 1)
+                if (_totalLines > 1)
                 {
                     width = Math.Max(width, widthUsed);
-                    height = (height + Spacing) * rowCount - Spacing; // via MitchMilam 
+                    height = (height + Spacing) * _totalLines - Spacing; // via MitchMilam 
                 }
 
                 return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
@@ -184,7 +186,7 @@ namespace furigana.Controls
                     var newHeight = height + size.Request.Height + Spacing;
                     if (newHeight > heightConstraint || newLine)
                     {
-                        rowCount++;
+                        _totalLines++;
                         heightUsed = Math.Max(height, heightUsed);
                         height = size.Request.Height;
                         newLine = false;
@@ -202,10 +204,10 @@ namespace furigana.Controls
                     minWidth = Math.Max(minWidth, size.Minimum.Width);
                 }
 
-                if (rowCount > 1)
+                if (_totalLines > 1)
                 {
                     width = Math.Max(width, widthUsed);
-                    height = (height + Spacing) * rowCount - Spacing; // via MitchMilam 
+                    height = (height + Spacing) * _totalLines - Spacing; // via MitchMilam 
                 }
 
                 return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
@@ -225,6 +227,7 @@ namespace furigana.Controls
             double rowWidth = 0;
             double rowHeight = 0;
             double yPos = y, xPos = x;
+            _totalLines = 1;
 
             bool newLine = false;
 
@@ -245,6 +248,7 @@ namespace furigana.Controls
                         yPos += rowHeight + Spacing;
                         rowHeight = 0;
                         newLine = false;
+                        _totalLines++;
                     }
 
                     //change new line in next character
@@ -258,6 +262,7 @@ namespace furigana.Controls
             }
             else
             {
+                //cal the total lines first
                 foreach (var child in Children.Where(c => c.IsVisible))
                 {
                     var request = child.Measure(width, height);
@@ -268,10 +273,11 @@ namespace furigana.Controls
 
                     if (yPos + childHeight > height || newLine)
                     {
-                        xPos = xPos + rowWidth +Spacing;
+                        xPos = xPos + rowWidth + Spacing;
                         yPos = y;
                         rowWidth = 0;
                         newLine = false;
+                        _totalLines++;
                     }
 
                     //change new line in next character
@@ -282,6 +288,38 @@ namespace furigana.Controls
                     LayoutChildIntoBoundingRegion(child, region);
                     yPos += region.Height + Spacing;
                 }
+
+                
+                yPos = y;
+                xPos = x;
+
+                //adjust the position
+                foreach (var child in Children.Where(c => c.IsVisible))
+                {
+                    var request = child.Measure(width, height);
+                    var childWidth = request.Request.Width;
+                    var childHeight = request.Request.Height;
+
+                    rowWidth = Math.Max(rowWidth, childWidth);
+                    var lineSpacing = rowWidth + Spacing;
+
+                    if (yPos + childHeight > height || newLine)
+                    {
+                        xPos = xPos - lineSpacing;
+                        yPos = y;
+                        rowWidth = 0;
+                        newLine = false;
+                    }
+
+                    //change new line in next character
+                    if (child.Text.ChangeNewLine)
+                        newLine = true;
+
+                    var region = new Rectangle(xPos + (lineSpacing) * (_totalLines - 1), yPos, childWidth, childHeight);
+                    LayoutChildIntoBoundingRegion(child, region);
+                    yPos += region.Height + Spacing;
+                }
+                
             }
                 
         }
