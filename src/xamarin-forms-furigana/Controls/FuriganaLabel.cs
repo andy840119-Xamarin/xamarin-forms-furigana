@@ -252,7 +252,14 @@ namespace furigana.Controls
 
             //change model
             if (BindingContext is ObservableCollection<TextModel> text)
+            {
                 Text = text;
+            }
+            else
+            {
+                //throw exception
+                throw new ArgumentException("Binding must be the type of : " + nameof(ObservableCollection<TextModel>));
+            }   
         }
 
         /// <summary>
