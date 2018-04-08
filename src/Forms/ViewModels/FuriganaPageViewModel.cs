@@ -1,5 +1,5 @@
-﻿using furigana.Model;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Furigana.Model;
 
 namespace CustomLayoutsDemo.ViewModels
 {

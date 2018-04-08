@@ -1,39 +1,17 @@
-﻿using furigana.Model;
+﻿using System;
+using System.Runtime.CompilerServices;
 using Furigana.Extension;
 using Furigana.Helper;
-using System;
-using System.Runtime.CompilerServices;
+using Furigana.Model;
 using Xamarin.Forms;
 
-namespace furigana.Controls
+namespace Furigana.Controls
 {
     /// <summary>
     ///     Character
     /// </summary>
     public class FuriganaCharacter : StackLayout
     {
-        #region UI
-        private Label _characterLabel;
-        private Label _furiganaLabel;
-        private Label _romajiLabel;
-
-        private BoxView _furiganaSpacingBox;
-        private BoxView _romajiSpacingBox;
-
-        private FuriganaText _furiganaText;
-        #endregion
-
-        #region Property
-        private double _furiganaFontSize = 8;
-        private double _characterFontSize = 15;
-        private double _romajiFontSize = 7;
-        private double _furiganaSpacing = 0;
-        private double _romajiSpacing = 0;
-        private Color? _textColor;
-        private bool _autoChangeNewLine = true;
-        private StackOrientation _orientation = StackOrientation.Vertical;
-        #endregion
-
         /// <summary>
         ///     Ctor
         /// </summary>
@@ -159,7 +137,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// property change
+        ///     property change
         /// </summary>
         /// <param name="propertyName"></param>
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -197,7 +175,6 @@ namespace furigana.Controls
         /// <summary>
         ///     Change orientation
         /// </summary>
-        /// <param name="orientation">Character's oriention,not the string's orientation. They are relativce</param>
         protected virtual void ChangeOrientation()
         {
             if (base.Orientation != Orientation)
@@ -205,19 +182,19 @@ namespace furigana.Controls
                 _characterLabel = new Label
                 {
                     HorizontalTextAlignment = TextAlignment.Center,
-                    VerticalTextAlignment = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center
                 };
 
                 _furiganaLabel = new Label
                 {
                     HorizontalTextAlignment = TextAlignment.Center,
-                    VerticalTextAlignment = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center
                 };
 
                 _romajiLabel = new Label
                 {
                     HorizontalTextAlignment = TextAlignment.Center,
-                    VerticalTextAlignment = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center
                 };
 
                 _furiganaSpacingBox = new BoxView();
@@ -315,8 +292,12 @@ namespace furigana.Controls
             if (Text != null)
             {
                 var orientation = Orientation.GetOppositeOrientation();
-                _furiganaLabel.FormattedText = FormattedStringHelper.MakeOrientationFormattedString(string.IsNullOrEmpty(Text.Furigana)? " " : Text.Furigana, orientation);
-                _characterLabel.FormattedText = FormattedStringHelper.MakeOrientationFormattedString(string.IsNullOrEmpty(Text.Character) ? " " : Text.Character, orientation);
+                _furiganaLabel.FormattedText =
+                    FormattedStringHelper.MakeOrientationFormattedString(
+                        string.IsNullOrEmpty(Text.Furigana) ? " " : Text.Furigana, orientation);
+                _characterLabel.FormattedText =
+                    FormattedStringHelper.MakeOrientationFormattedString(
+                        string.IsNullOrEmpty(Text.Character) ? " " : Text.Character, orientation);
                 _romajiLabel.Text = string.IsNullOrEmpty(Text.Romaji) ? " " : Text.Romaji;
 
                 if (_furiganaText.TextColor != null)
@@ -327,5 +308,30 @@ namespace furigana.Controls
                 }
             }
         }
+
+        #region UI
+
+        private Label _characterLabel;
+        private Label _furiganaLabel;
+        private Label _romajiLabel;
+
+        private BoxView _furiganaSpacingBox;
+        private BoxView _romajiSpacingBox;
+
+        private FuriganaText _furiganaText;
+
+        #endregion
+
+        #region Property
+
+        private double _furiganaFontSize = 8;
+        private double _characterFontSize = 15;
+        private double _romajiFontSize = 7;
+        private double _furiganaSpacing;
+        private double _romajiSpacing;
+        private Color? _textColor;
+        private StackOrientation _orientation = StackOrientation.Vertical;
+
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CustomLayoutsDemo.ViewModels;
-using furigana.Controls;
+using Furigana.Controls;
 using Xamarin.Forms;
 
 namespace CustomLayoutsDemo

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using furigana.Model;
 using Furigana.Extension;
+using Furigana.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-namespace furigana.Controls
+namespace Furigana.Controls
 {
     /// <summary>
     ///     Label
@@ -17,37 +15,32 @@ namespace furigana.Controls
     /// </summary>
     public class FuriganaLabel : FuriganaLabel<FuriganaCharacter, FuriganaText>
     {
-
     }
 
     /// <summary>
     ///     Label
     ///     contain list of character <see cref="FuriganaText" />
     /// </summary>
-    public class FuriganaLabel<Character,TextModel> : Layout<Character> where Character : FuriganaCharacter, new() where TextModel : FuriganaText , new ()
+    public class FuriganaLabel<Character, TextModel> : Layout<Character> where Character : FuriganaCharacter, new()
+        where TextModel : FuriganaText, new()
     {
-        //local
-        private int _totalLines = 1;
+        private bool _autoChangeNewLine = true;
+        private double _characterFontSize = 15;
+        private double _characterSpacing = 1;
 
         //property
         private double _furiganaFontSize = 8;
-        private double _characterFontSize = 15;
-        private double _romajiFontSize = 7;
-        private double _characterSpacing = 1;
+
         private double _furiganaSpacing;
-        private double _romajiSpacing;
-        private Color? _textColor;
-        private bool _autoChangeNewLine = true;
         private StackOrientation _orientation = StackOrientation.Horizontal;
+        private double _romajiFontSize = 7;
+        private double _romajiSpacing;
         private ObservableCollection<TextModel> _text;
 
-        /// <summary>
-        /// Ctor
-        /// </summary>
-        public FuriganaLabel()
-        {
-            
-        }
+        private Color? _textColor;
+
+        //local
+        private int _totalLines = 1;
 
         /// <summary>
         ///     Size
@@ -173,7 +166,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// Model
+        ///     Model
         /// </summary>
         public ObservableCollection<TextModel> Text
         {
@@ -194,7 +187,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// property change
+        ///     property change
         /// </summary>
         /// <param name="propertyName"></param>
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -227,7 +220,7 @@ namespace furigana.Controls
                     ForceLayout();
                     break;
                 case "TextColor":
-                    Children.ForEach(X=>X.TextColor = TextColor);
+                    Children.ForEach(X => X.TextColor = TextColor);
                     break;
                 case "AutoChangeNewLine":
                     ForceLayout();
@@ -244,7 +237,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// Context change
+        ///     Context change
         /// </summary>
         protected override void OnBindingContextChanged()
         {
@@ -252,20 +245,15 @@ namespace furigana.Controls
 
             //change model
             if (BindingContext is ObservableCollection<TextModel> text)
-            {
                 Text = text;
-            }
             else
-            {
-                //throw exception
                 throw new ArgumentException("Binding must be the type of : " + nameof(ObservableCollection<TextModel>));
-            }   
         }
 
         /// <summary>
-        /// property change
-        /// now is clean and re-generate everying
-        /// TODO : optomize this 
+        ///     property change
+        ///     now is clean and re-generate everying
+        ///     TODO : optomize this
         /// </summary>
         protected virtual void InitialText()
         {
@@ -296,7 +284,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// TODO : IDK what does it means ,this code is from another place
+        ///     TODO : IDK what does it means ,this code is from another place
         /// </summary>
         /// <param name="widthConstraint"></param>
         /// <param name="heightConstraint"></param>
@@ -319,7 +307,7 @@ namespace furigana.Controls
         }
 
         /// <summary>
-        /// TODO : IDK what does it means ,this code is from another place
+        ///     TODO : IDK what does it means ,this code is from another place
         /// </summary>
         /// <param name="widthConstraint"></param>
         /// <param name="heightConstraint"></param>
@@ -327,7 +315,7 @@ namespace furigana.Controls
         private SizeRequest DoHorizontalMeasure(double widthConstraint, double heightConstraint)
         {
             _totalLines = 1;
-            bool newLine = false;
+            var newLine = false;
 
             double width = 0;
             double height = 0;
@@ -374,47 +362,43 @@ namespace furigana.Controls
 
                 return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
             }
-            else
+            foreach (var item in Children)
             {
-                foreach (var item in Children)
+                var size = item.Measure(widthConstraint, heightConstraint);
+                width = Math.Max(width, size.Request.Width);
+
+                var newHeight = height + size.Request.Height + Spacing;
+                if (newHeight > heightConstraint || newLine)
                 {
-                    var size = item.Measure(widthConstraint, heightConstraint);
-                    width = Math.Max(width, size.Request.Width);
-
-                    var newHeight = height + size.Request.Height + Spacing;
-                    if (newHeight > heightConstraint || newLine)
-                    {
-                        _totalLines++;
-                        heightUsed = Math.Max(height, heightUsed);
-                        height = size.Request.Height;
-                        newLine = false;
-                    }
-                    else
-                    {
-                        height = newHeight;
-                    }
-
-                    //change new line in next character
-                    if (item.Text.ChangeNewLine)
-                        newLine = true;
-
-                    minHeight = Math.Max(minHeight, size.Minimum.Height);
-                    minWidth = Math.Max(minWidth, size.Minimum.Width);
+                    _totalLines++;
+                    heightUsed = Math.Max(height, heightUsed);
+                    height = size.Request.Height;
+                    newLine = false;
+                }
+                else
+                {
+                    height = newHeight;
                 }
 
-                if (_totalLines > 1)
-                {
-                    width = Math.Max(width, widthUsed);
-                    height = (height + Spacing) * _totalLines - Spacing; // via MitchMilam 
-                }
+                //change new line in next character
+                if (item.Text.ChangeNewLine)
+                    newLine = true;
 
-                return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
+                minHeight = Math.Max(minHeight, size.Minimum.Height);
+                minWidth = Math.Max(minWidth, size.Minimum.Width);
             }
-            
+
+            if (_totalLines > 1)
+            {
+                width = Math.Max(width, widthUsed);
+                height = (height + Spacing) * _totalLines - Spacing; // via MitchMilam 
+            }
+
+            return new SizeRequest(new Size(width, height), new Size(minWidth, minHeight));
         }
 
         /// <summary>
-        /// TODO : IDK what does it means ,this code is from another place
+        ///     TODO : IDK what does it means ,this code is from another place
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -427,7 +411,7 @@ namespace furigana.Controls
             double yPos = y, xPos = x;
             _totalLines = 1;
 
-            bool newLine = false;
+            var newLine = false;
 
             if (Orientation == StackOrientation.Horizontal)
             {
@@ -487,7 +471,7 @@ namespace furigana.Controls
                     yPos += region.Height + Spacing;
                 }
 
-                
+
                 yPos = y;
                 xPos = x;
 
@@ -513,13 +497,11 @@ namespace furigana.Controls
                     if (child.Text.ChangeNewLine)
                         newLine = true;
 
-                    var region = new Rectangle(xPos + (lineSpacing) * (_totalLines - 1), yPos, childWidth, childHeight);
+                    var region = new Rectangle(xPos + lineSpacing * (_totalLines - 1), yPos, childWidth, childHeight);
                     LayoutChildIntoBoundingRegion(child, region);
                     yPos += region.Height + Spacing;
                 }
-                
             }
-                
         }
     }
 }

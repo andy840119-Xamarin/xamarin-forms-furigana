@@ -125,9 +125,9 @@
       <Project>{5cf1e54f-e47a-4379-8a1a-8603772565ce}</Project>
       <Name>furigana.Form</Name>
     </ProjectReference>
-    <ProjectReference Include="..\xamarin-forms-furigana\furigana.csproj">
+    <ProjectReference Include="..\xamarin-forms-furigana\Furigana.csproj">
       <Project>{d256b981-15b1-4581-a937-e0e3ecbf0fa4}</Project>
-      <Name>furigana</Name>
+      <Name>Furigana</Name>
     </ProjectReference>
   </ItemGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

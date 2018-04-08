@@ -1,27 +1,25 @@
-﻿using furigana.Annotations;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
-namespace furigana.Model
+namespace Furigana.Model
 {
     /// <summary>
     ///     Define each of character
     /// </summary>
     public class FuriganaText : INotifyPropertyChanged
     {
-        private string _furigana;
+        private bool _changeNewLine;
         private string _character;
+        private string _furigana;
         private string _romaji;
         private Color? _textColor;
-        private bool _changeNewLine;
 
         /// <summary>
         ///     Ctor
         /// </summary>
         public FuriganaText()
         {
-
         }
 
         /// <summary>
@@ -67,7 +65,7 @@ namespace furigana.Model
         ///     Romaji
         /// </summary>
         public string Romaji
-        { 
+        {
             get => _romaji;
             set
             {
