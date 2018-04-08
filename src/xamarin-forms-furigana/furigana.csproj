@@ -9,9 +9,9 @@
     <Description>Show furigana japanese character in xamarin.Forms</Description>
     <PackageLicenseUrl>https://github.com/andy840119-Xamarin/xamarin-furigana/blob/master/README.md</PackageLicenseUrl>
     <PackageTags>android ios furigana xamarin forms</PackageTags>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <PackageReleaseNotes>https://github.com/andy840119-Xamarin/xamarin-furigana/blob/master/README.md</PackageReleaseNotes>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/andy840119-Xamarin/xamarin-furigana/master/icon/1.1.0.png</PackageIconUrl>
     <AssemblyName>Xamarin.Forms.Furigana</AssemblyName>
     <RootNamespace>Furigana</RootNamespace>
     <RepositoryUrl>https://github.com/andy840119-Xamarin/xamarin-furigana.git</RepositoryUrl>
