@@ -11,7 +11,7 @@ namespace furigana.Controls
 {
     /// <summary>
     ///     Label
-    ///     contain list of <see cref="FuriganaCharacter" />
+    ///     Contain list of character <see cref="FuriganaCharacter" />
     /// </summary>
     public class FuriganaLabel : FuriganaLabel<FuriganaCharacter>
     {
@@ -20,7 +20,7 @@ namespace furigana.Controls
 
     /// <summary>
     ///     Label
-    ///     contain list of <see cref="FuriganaText" />
+    ///     contain list of character <see cref="FuriganaText" />
     /// </summary>
     public class FuriganaLabel<Character> : Layout<Character> where Character : FuriganaCharacter, new()
     {
