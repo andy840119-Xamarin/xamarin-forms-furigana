@@ -14,6 +14,7 @@ namespace furigana.Model
         private string _character;
         private string _romaji;
         private Color? _textColor;
+        private bool _changeNewLine;
 
         /// <summary>
         ///     Ctor
@@ -84,6 +85,19 @@ namespace furigana.Model
             set
             {
                 _textColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     Change new line
+        /// </summary>
+        public bool ChangeNewLine
+        {
+            get => _changeNewLine;
+            set
+            {
+                _changeNewLine = value;
                 OnPropertyChanged();
             }
         }

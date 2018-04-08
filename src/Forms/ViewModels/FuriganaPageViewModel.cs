@@ -19,7 +19,10 @@ namespace CustomLayoutsDemo.ViewModels
             FuriganaModel.FuriganaTexts.Add(new FuriganaText("わ", "", "wa"));
             FuriganaModel.FuriganaTexts.Add(new FuriganaText("る", "", "ru"));
             FuriganaModel.FuriganaTexts.Add(new FuriganaText("ま", "", "ma"));
-            FuriganaModel.FuriganaTexts.Add(new FuriganaText("で", "", "de"));
+            FuriganaModel.FuriganaTexts.Add(new FuriganaText("で", "", "de")
+            {
+                ChangeNewLine = true
+            });
             FuriganaModel.FuriganaTexts.Add(new FuriganaText("は", "", "waaaaaaaaa"));
             FuriganaModel.FuriganaTexts.Add(new FuriganaText("終", "おおおおおお"));
             FuriganaModel.FuriganaTexts.Add(new FuriganaText("わ"));

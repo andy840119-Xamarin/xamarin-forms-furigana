@@ -17,18 +17,9 @@ namespace CustomLayoutsDemo
             _viewModel = new FuriganaPageViewModel();
             BindingContext = _viewModel;
 
-            Content = new StackLayout
+            Content = new FuriganaLabel
             {
-                Orientation = StackOrientation.Vertical,
-                VerticalOptions = LayoutOptions.Center,
-                Spacing = 0,
-                Children =
-                {
-                    new FuriganaLabel
-                    {
-                        BindingContext = _viewModel.FuriganaModel
-                    }
-                }
+                BindingContext = _viewModel.FuriganaModel
             };
         }
     }
