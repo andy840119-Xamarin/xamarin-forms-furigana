@@ -1,4 +1,9 @@
-# xamarin-furigana   
+# xamarin-furigana  
+
+[![NuGet](https://img.shields.io/nuget/v/Xamarin.Forms.Furigana.svg)](https://www.nuget.org/packages/Xamarin.Forms.Furigana)
+[![NuGet](https://img.shields.io/nuget/dt/Xamarin.Forms.Furigana.svg)](https://www.nuget.org/packages/Xamarin.Forms.Furigana)
+
+
 xamarin-furigana is used to show furigana in Japanese character.   
 support xamarin.Forms   
 .   
